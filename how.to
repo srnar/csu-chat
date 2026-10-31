@@ -1,0 +1,8 @@
+pip install streamlit
+
+streamlit run app.py
+
+pip freeze > requirements.txt
+
+git init
+git remote add origin https://github.com/srnar/csu-chat
