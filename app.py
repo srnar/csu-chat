@@ -69,6 +69,10 @@ def get_vector_db() -> FAISS:
 # 3. TEXT-TO-PANDAS ANALÝZA
 # -----------------------------------------------------------------------------
 def analyze_csv_with_groq(df: pd.DataFrame, user_question: str, api_key: str, perioda: str, teritorium: str) -> Dict[str, Any]:
+    print("df")
+    df = df.drop(columns=["MJ_SYMBOL","POZNAMKA","POZNAMKA_TEXT"])    
+    print(df)
+
     llm = ChatGroq(
         model_name="openai/gpt-oss-120b",
         temperature=0,
@@ -93,13 +97,15 @@ Struktura DataFrame `df`:
 Otázka uživatele: {question}
 
 Napiš POUZE platný Python kód (bez vysvětlování, bez markdown obalů ```python), 
-který spočítá výsledek z hodnot ve sloupci `Hodnota` a uloží ho do proměnné `result`.
+který agreguje výsledek z hodnot ve sloupci `Hodnota` a uloží ho do proměnné `result`.
 Filtruj spravne zaznamy ze sloupce `Ukazatel` jako ekvivalenty ukazatele, na ktery se uzivatel pta.
-Pokud struktura df obsahuje mezi sloupci `Ukazatel` a `Území` jine sloupce, na ktere se uzivatel nepta, potom filtruj zaznamy podle ekvivalentu hodnoty `Celkem`.
 Pokud otázka vyžaduje časový trend, potom urci spravne periodu obdobi, vyfiltruj příslušné periody a seřaď je.
 Pokud otázka vyžaduje uzemni celek, potom urci spravne uroven teritoria a vyfiltruj příslušné urovne obvykle ze sloupce `Území`.
+Pokud jsou v dataframe dalsi sloupce, ktere nevyuzivas ve filtrovani, potom na ne pridej filtr na hodnotu `Celkem` nebo null.
+Nikdy ale nefitruj tyto sloupce [`MJ_TEXT`].
 """)
 
+    print(f"code_prompt1:{code_prompt}")
     code_chain = code_prompt | llm | StrOutputParser()
     raw_code = code_chain.invoke({"csv_metadata": csv_metadata, "question": user_question})
     clean_code = raw_code.replace("```python", "").replace("```", "").strip()
@@ -123,6 +129,7 @@ Zde jsou přesně spočítaná data z celého souboru CSV (proměnná result):
 
 Vysvětli uživateli stručně, přehledně a lidsky v češtině, jaký je závěr.
 """)
+    print(f"summary_prompt2:{summary_prompt}")
     summary_chain = summary_prompt | llm | StrOutputParser()
     summary_text = summary_chain.invoke({"question": user_question, "result": str(result)})
 
@@ -198,11 +205,11 @@ Vrať POUZE JSON:
             sada_nazev = match_res.get("dataset_name")
             perioda = match_res.get("perioda")
             teritorium = match_res.get("teritorium")
-            status.write(f"3. Nalezena sada `{sada_kod}` ({sada_nazev}), perioda {perioda}, teritorium {teritorium}")
-
-            status.write("4. Stahuji CSV z ČSÚ API...")
-            api_url = f"{DOTAZ_URL}/data/sady/{sada_kod}?format=CSV"
             
+            api_url = f"{DOTAZ_URL}/data/sady/{sada_kod}?format=CSV"
+            status.markdown(f"3. Nalezena sada  [`{sada_kod}`]({api_url}) ({sada_nazev}), perioda {perioda}, teritorium {teritorium}")
+
+            status.write("4. Stahuji CSV z ČSÚ API...")                        
             csv_df = None
             try:
                 response = requests.get(api_url, timeout=15)
@@ -225,8 +232,11 @@ Vrať POUZE JSON:
             with st.expander("🛠️ Zobrazit vygenerovaný analytický Python kód"):
                 st.code(analysis_result["code"], language="python")
 
+            st.markdown("### 📊 Data vysledku:")
+            st.dataframe(analysis_result["result_data"], use_container_width=True, hide_index=True)
+
             st.markdown("### 📊 Ukázka datového souboru:")
-            st.dataframe(csv_df.head(10), use_container_width=True)
+            st.dataframe(csv_df.head(10), use_container_width=True, hide_index=True)
 
             st.session_state.messages.append({
                 "role": "assistant",
