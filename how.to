@@ -6,3 +6,7 @@ pip freeze > requirements.txt
 
 git init
 git remote add origin https://github.com/srnar/csu-chat
+
+git commit -m "Prvni verze Streamlit aplikace"
+
+git push -u origin main

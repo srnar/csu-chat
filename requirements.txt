@@ -1,0 +1,11 @@
+pysqlite3-binary
+faiss-cpu
+streamlit
+os
+io
+requests
+pandas as pd
+streamlit as st
+langchain_community
+langchain_core
+langchain_groq
