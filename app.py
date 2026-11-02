@@ -133,23 +133,9 @@ Vysvětli uživateli stručně, přehledně a lidsky v češtině, jaký je záv
     }
 
 # -----------------------------------------------------------------------------
-# 4. POSTRANNÍ PANEL & APPLIKACE
+# 4. APPLIKACE
 # -----------------------------------------------------------------------------
-with st.sidebar:
-    st.header("⚙️ Nastavení")
-    groq_key_input = st.text_input(
-        "Groq API Key",
-        value=os.environ.get("GROQ_API_KEY", ""),
-        type="password"
-    )
-    
-    if st.button("🗑️ Vymazat historii"):
-        st.session_state.messages = []
-        st.rerun()
-
-if not groq_key_input:
-    st.info("💡 Zadejte prosím váš Groq API klíč v levém postranním panelu.")
-    st.stop()
+groq_key_input = os.environ.get("GROQ_API_KEY", "")
 
 # Zde se bezpečně zavolá funkce
 with st.spinner("Načítání FAISS databáze katalogu..."):
