@@ -1,11 +1,8 @@
 pysqlite3-binary
 faiss-cpu
 streamlit
-os
-io
 requests
 pandas
-streamlit
 langchain_community
 langchain_core
 langchain_groq
