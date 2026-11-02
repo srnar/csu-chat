@@ -94,7 +94,7 @@ Otázka uživatele: {question}
 
 Napiš POUZE platný Python kód (bez vysvětlování, bez markdown obalů ```python), 
 který spočítá výsledek z hodnot ve sloupci `Hodnota` a uloží ho do proměnné `result`.
-Filtruj spravne zaznamy ze sloupce `Ukazatel`.
+Filtruj spravne zaznamy ze sloupce `Ukazatel` jako ekvivalenty ukazatele, na ktery se uzivatel pta.
 Pokud struktura df obsahuje mezi sloupci `Ukazatel` a `Území` jine sloupce, na ktere se uzivatel nepta, potom filtruj zaznamy podle ekvivalentu hodnoty `Celkem`.
 Pokud otázka vyžaduje časový trend, potom urci spravne periodu obdobi, vyfiltruj příslušné periody a seřaď je.
 Pokud otázka vyžaduje uzemni celek, potom urci spravne uroven teritoria a vyfiltruj příslušné urovne obvykle ze sloupce `Území`.
