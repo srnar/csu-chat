@@ -4,8 +4,8 @@ streamlit
 os
 io
 requests
-pandas as pd
-streamlit as st
+pandas
+streamlit
 langchain_community
 langchain_core
 langchain_groq
