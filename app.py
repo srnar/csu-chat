@@ -232,8 +232,9 @@ Vrať POUZE JSON:
             with st.expander("🛠️ Zobrazit vygenerovaný analytický Python kód"):
                 st.code(analysis_result["code"], language="python")
 
-            st.markdown("### 📊 Data vysledku:")
-            st.dataframe(analysis_result["result_data"], use_container_width=True, hide_index=True)
+            if isinstance(analysis_result["result_data"], pd.DataFrame): 
+                st.markdown("### 📊 Data vysledku:")
+                st.dataframe(analysis_result["result_data"], use_container_width=True, hide_index=True)
 
             st.markdown("### 📊 Ukázka datového souboru:")
             st.dataframe(csv_df.head(10), use_container_width=True, hide_index=True)
