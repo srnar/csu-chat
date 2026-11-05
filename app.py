@@ -101,7 +101,7 @@ který agreguje výsledek z hodnot ve sloupci `Hodnota` a uloží ho do proměnn
 Filtruj spravne zaznamy ze sloupce `Ukazatel` jako ekvivalenty ukazatele, na ktery se uzivatel pta.
 Pokud otázka vyžaduje časový trend, potom urci spravne periodu obdobi, vyfiltruj příslušné periody a seřaď je.
 Pokud otázka vyžaduje uzemni celek, potom urci spravne uroven teritoria a vyfiltruj příslušné urovne obvykle ze sloupce `Území`.
-Pokud jsou v dataframe dalsi sloupce, ktere nevyuzivas ve filtrovani, potom na ne pridej filtr na hodnotu `Celkem` nebo null.
+Pokud jsou v dataframe dalsi sloupce, ktere nevyuzivas ve filtrovani, potom na ne pridej filtr na hodnoty `Celkem` nebo null nebo `Česko`.
 Nikdy ale nefitruj tyto sloupce [`MJ_TEXT`].
 """)
 
