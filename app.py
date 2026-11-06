@@ -94,15 +94,21 @@ Jsi Python Data Analyst. Máš k dispozici Pandas DataFrame v proměnné `df`.
 Struktura DataFrame `df`:
 {csv_metadata}
 
-Otázka uživatele: {question}
+Otázka: {question}
 
-Napiš POUZE platný Python kód (bez vysvětlování, bez markdown obalů ```python), 
-který agreguje výsledek z hodnot ve sloupci `Hodnota` a uloží ho do proměnné `result`.
-Filtruj spravne zaznamy ze sloupce `Ukazatel` jako ekvivalenty ukazatele, na ktery se uzivatel pta.
-Pokud otázka vyžaduje časový trend, potom urci spravne periodu obdobi, vyfiltruj příslušné periody a seřaď je.
-Pokud otázka vyžaduje uzemni celek, potom urci spravne uroven teritoria a vyfiltruj příslušné urovne obvykle ze sloupce `Území`.
-Pokud jsou v dataframe dalsi sloupce, ktere nevyuzivas ve filtrovani, potom na ne VZDY pridej filtr na hodnoty `Celkem` nebo null nebo `Česko`.
-Nikdy ale nefitruj tyto sloupce [`MJ_TEXT`].
+Vrať POUZE platný Python kód bez komentářů a markdownu.
+
+Pravidla:
+- Výsledek ulož do proměnné `result`.
+- Hodnoty vždy ber ze sloupce `Hodnota`.
+- Pro ukazatel vyber odpovídající hodnoty ze sloupce `Ukazatel`, preferuj přesnou shodu, jinak nejbližší sémantický ekvivalent.
+- Pokud otázka obsahuje území, filtruj odpovídající hodnoty ve sloupci `Území`.
+- Pokud otázka obsahuje období, správně vyfiltruj časovou dimenzi; pro trend vrať chronologicky seřazený výsledek.
+- Pokud není období uvedeno, použij nejnovější dostupné období.
+- Na všechny nepoužité dimenzní sloupce kromě `MJ_TEXT` aplikuj filtr na `Celkem`, jinak `Česko`, jinak null/NaN.
+- Pokud po filtraci zůstane více řádků a nejde o trend, agreguj je součtem sloupce `Hodnota`.
+- Pro jednu hodnotu vrať skalár, pro trend vrať DataFrame nebo Series.
+- Nepoužívej filtrování pomocí contains(), pokud lze určit jednoznačnou hodnotu dimenze.
 """)
 
     print(f"code_prompt1:{code_prompt}")
